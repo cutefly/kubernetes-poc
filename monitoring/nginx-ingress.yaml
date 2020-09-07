@@ -1,0 +1,20 @@
+# nginx ingress는 namespace별로 생성이 가능함.
+# monitoring namespace의 ingress 생성
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: monitoring
+  name: nginx-ingress-monitoring
+  labels:
+    app: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: grafana.k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: grafana
+          servicePort: 3000
