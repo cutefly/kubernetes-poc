@@ -11,6 +11,13 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
+  - host: prom.k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: prometheus-service
+          servicePort: 8080
   - host: grafana.k8s.local
     http:
       paths:

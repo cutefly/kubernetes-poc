@@ -1,0 +1,54 @@
+# kube-state-deployment-rpi.yaml
+#
+# ARM64인 경우 참고 : https://opensource.com/article/20/6/kubernetes-lens
+# By default, this value points to the official image: quay.io/coreos/kube-state-metrics:v1.9.5. Replace this value with docker.io/carlosedp/kube-state-metrics:v1.9.5.
+#
+# 관련 블로그 : https://itnext.io/creating-a-full-monitoring-solution-for-arm-kubernetes-cluster-53b3671186cb
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kube-state-metrics
+  name: kube-state-metrics
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kube-state-metrics
+  template:
+    metadata:
+      labels:
+        app: kube-state-metrics
+    spec:
+      containers:
+      - image: carlosedp/kube-state-metrics:v1.9.6
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        name: kube-state-metrics
+        ports:
+        - containerPort: 8080
+          name: http-metrics
+        - containerPort: 8081
+          name: telemetry
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        resources:
+          limits:
+            memory: "1280Mi"
+            cpu: "1000m"
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: kube-state-metrics

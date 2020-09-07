@@ -1,26 +1,25 @@
-# Deployment nginx
-# kubectl apply -f nginx-deploy-svc.yaml
-# kubectl get pods -l run=my-nginx -o wide
+# Deployment whoami for ARM64
+# https://hub.docker.com/r/stefanscherer/whoami
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: kpcard-development
-  name: my-nginx
+  name: hello-kubernetes
 spec:
   selector:
     matchLabels:
-      run: my-nginx
-  replicas: 2
+      run: hello-kubernetes
+  replicas: 3
   template:
     metadata:
       labels:
-        run: my-nginx
+        run: hello-kubernetes
     spec:
       containers:
-      - name: my-nginx
-        image: nginx
+      - name: hello-kubernetes
+        image: stefanscherer/whoami:1.1.0
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         resources:
           limits:
             memory: "1280Mi"
@@ -28,22 +27,17 @@ spec:
           requests:
             memory: "64Mi"
             cpu: "100m"
----
-# Expose nginx service
-# kubectl expose deployment/my-nginx 또는
-# kubectl apply -f nginx-svc.yaml
-# kubectl get svc my-nginx
-# kubectl describe svc my-nginx
+---        
 apiVersion: v1
 kind: Service
 metadata:
   namespace: kpcard-development
-  name: my-nginx
+  name: hello-kubernetes
   labels:
-    run: my-nginx
+    run: hello-kubernetes
 spec:
   ports:
-  - port: 80
+  - port: 8080
     protocol: TCP
   selector:
-    run: my-nginx
+    run: hello-kubernetes
