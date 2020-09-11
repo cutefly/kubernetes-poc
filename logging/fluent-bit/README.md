@@ -20,5 +20,8 @@ $ kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernet
 ### Fluent Bit to Elasticsearch
 
 ```
-$ kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/output/elasticsearch/fluent-bit-ds.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/output/elasticsearch/fluent-bit-ds.yaml
+
+# elasticsearch 서버 변경
+$ kubectl apply -f logging/fluent-bit-ds.yaml
 ```

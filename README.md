@@ -76,6 +76,11 @@ echo 'source <(kubectl completion bash)' >>~/.bashrc
 # Disable swap
 $ sudo swapoff -a
 
+# Disable swap permanently
+$ sudo cat /proc/swaps
+# comment out line 
+# /swap.img      none    swap    sw      0       0
+
 $ sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 W0730 19:03:12.698283  222366 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
 [init] Using Kubernetes version: v1.18.6
@@ -185,8 +190,8 @@ $ kubectl proxy
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 
 # 인증추가
-$ kubectl apply -f kubernetes/dashboard-adminuser.yaml
-$ kubectl apply -f /dashboard-rolebinding.yaml
+$ kubectl apply -f dashboard-adminuser.yaml
+$ kubectl apply -f dashboard-rolebinding.yaml
 
 # generate token
 $ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
