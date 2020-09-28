@@ -21,6 +21,9 @@ spec:
         image: nginx
         ports:
         - containerPort: 80
+        volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: nginx-pv-storage
         resources:
           limits:
             memory: "1280Mi"
@@ -28,6 +31,10 @@ spec:
           requests:
             memory: "64Mi"
             cpu: "100m"
+      volumes:
+      - name: nginx-pv-storage
+        persistentVolumeClaim:
+          claimName: nfs-pvc
 ---
 # Expose nginx service
 # kubectl expose deployment/my-nginx 또는

@@ -1,0 +1,35 @@
+# Persistent Volume 생성
+# kubectl get pv
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: nfs
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /mnt/data
+    server: 172.16.3.204
+---
+# Persistent Volume Claim 생성
+# kubectl get pvc
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: kpcard-development
+  name: nfs-pvc
+spec:
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi

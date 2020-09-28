@@ -75,6 +75,13 @@ echo 'source <(kubectl completion bash)' >>~/.bashrc
 ```
 # Disable swap
 $ sudo swapoff -a
+# 또는 영구적으로 하기 위해 /etc/fstab의 swap 항목을 코멘트 아웃
+# /swap.img      none    swap    sw      0       0
+
+
+# 먼저 브릿지되어있는 IPv4 트래픽을 iptables 체인으로 전달될 수 있도록 아래의 명령어를 실행합니다.
+$ sudo sysctl -w net.bridge.bridge-nf-call-iptables=1
+$ sudo sysctl -w net.ipv4.ip_forward=1
 
 $ sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 W0730 19:03:12.698283  222366 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
@@ -214,6 +221,19 @@ $ kubectl get pods -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
 
 NordPort 확인
 $ kubectl get svc -n ingress-nginx
+
+# Helm 이용
+$ kubectl create namespace ingress-nginx
+$ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+# 기본 설치
+$ helm install ingress-nginx ingress-nginx/ingress-nginx
+$ helm show values ingress-nginx/ingress-nginx
+
+# 옵션지정(type: NodePort, http: 32080, https: 32443 포트지정)
+$ helm install -f ingress-nginx-values.yaml ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx
+$ helm delete ingress-nginx
+
 ```
 
 # Namespace 생성
