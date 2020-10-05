@@ -1,0 +1,25 @@
+# monitoring namespace의 ingress 생성
+# kubectl apply -f ingress-monitoring.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: monitoring
+  name: nginx-ingress-monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: grafana.k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kube-prometheus-stack-grafana
+          servicePort: 80
+  - host: prom.k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kube-prometheus-stack-prometheus
+          servicePort: 9090

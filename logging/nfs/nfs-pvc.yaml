@@ -27,9 +27,11 @@ metadata:
   namespace: kpcard-development
   name: nfs-pvc
 spec:
-  storageClassName: nfs
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 10Gi
+  volumeName: nfs-pv
+  storageClassName: nfs
+  volumeMode: Filesystem
