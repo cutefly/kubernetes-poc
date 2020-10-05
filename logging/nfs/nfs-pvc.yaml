@@ -3,6 +3,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+  # Peristent Volume Claim 정의 시 참조한 명칭
   name: nfs-pv
 spec:
   capacity:
@@ -32,6 +33,7 @@ spec:
   resources:
     requests:
       storage: 10Gi
+  # Persistent Volume에서 정의된 nfs-pv를 명시함
   volumeName: nfs-pv
   storageClassName: nfs
   volumeMode: Filesystem
