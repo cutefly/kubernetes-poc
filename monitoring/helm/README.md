@@ -64,4 +64,5 @@ $ kubectl apply -f ingress-monitoring.yaml
 $ kubectl delete -f ingress-monitoring.yaml
 
 http://grafana.k8s.local:32080/
+Account : admin / prom-operator
 ```
