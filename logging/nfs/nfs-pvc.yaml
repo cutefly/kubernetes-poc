@@ -1,0 +1,39 @@
+# Persistent Volume 생성
+# kubectl get pv
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  # Peristent Volume Claim 정의 시 참조한 명칭
+  name: nfs-pv
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: nfs
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /mnt/data
+    server: 172.16.3.204
+---
+# Persistent Volume Claim 생성
+# kubectl get pvc
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: kpcard-development
+  name: nfs-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  # Persistent Volume에서 정의된 nfs-pv를 명시함
+  volumeName: nfs-pv
+  storageClassName: nfs
+  volumeMode: Filesystem

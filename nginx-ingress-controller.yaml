@@ -1,6 +1,21 @@
 # Nginx Ingress Controller
 # https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.35.0/deploy/static/provider/baremetal/deploy.yaml
-# 원본에 수정사항 없음
+# nginx controller의 nodePort를 고정하기 위해 nodePort 설정 라인을 추가했음
+# 해당 yaml을 업그레이드하는 경우에는 nodePort 설정을 추가해 주어야 함.
+#
+# spec:
+#   type: NodePort
+#   ports:
+#     - name: http
+#       port: 80
+#       protocol: TCP
+#       targetPort: http
+#       nodePort: 30080 # Node Port를 명시함
+#     - name: https
+#       port: 443
+#       protocol: TCP
+#       targetPort: https
+#       nodePort: 30443 # Node Port를 명시함
 
 apiVersion: v1
 kind: Namespace
@@ -291,10 +306,12 @@ spec:
       port: 80
       protocol: TCP
       targetPort: http
+      nodePort: 30080
     - name: https
       port: 443
       protocol: TCP
       targetPort: https
+      nodePort: 30443
   selector:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx

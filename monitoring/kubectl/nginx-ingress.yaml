@@ -16,12 +16,12 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: prometheus-service
-          servicePort: 8080
+          serviceName: kube-prometheus-stack-prometheus
+          servicePort: 9090
   - host: grafana.k8s.local
     http:
       paths:
       - path: /
         backend:
-          serviceName: grafana
+          serviceName: kube-prometheus-stack-grafana
           servicePort: 3000
