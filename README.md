@@ -256,3 +256,13 @@ http://tnginx.k8s.local:31290/
 http://thello.k8s.local:31290/
 http://tcustom.k8s.local:31290/
 ```
+
+# 서버정보
+
+```
+hyper-v at home
+k8s-master1 : 192.168.219.221 # appadmin
+k8s-worker1 : 192.168.219.221 # appadmin
+k8s-worker2 : 192.168.219.221 # appadmin
+k8s-volume : 192.168.219.224 # appadmin( NAS Share)
+```
