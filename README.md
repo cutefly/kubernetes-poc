@@ -83,6 +83,11 @@ $ sudo swapoff -a
 $ sudo sysctl -w net.bridge.bridge-nf-call-iptables=1
 $ sudo sysctl -w net.ipv4.ip_forward=1
 
+# Disable swap permanently
+$ sudo cat /proc/swaps
+# comment out line 
+# /swap.img      none    swap    sw      0       0
+
 $ sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 W0730 19:03:12.698283  222366 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
 [init] Using Kubernetes version: v1.18.6
@@ -192,8 +197,8 @@ $ kubectl proxy
 http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 
 # 인증추가
-$ kubectl apply -f kubernetes/dashboard-adminuser.yaml
-$ kubectl apply -f /dashboard-rolebinding.yaml
+$ kubectl apply -f dashboard-adminuser.yaml
+$ kubectl apply -f dashboard-rolebinding.yaml
 
 # generate token
 $ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
@@ -250,4 +255,14 @@ NodePort : 31290
 http://tnginx.k8s.local:31290/
 http://thello.k8s.local:31290/
 http://tcustom.k8s.local:31290/
+```
+
+# 서버정보
+
+```
+hyper-v at home
+k8s-master1 : 192.168.219.221 # appadmin
+k8s-worker1 : 192.168.219.221 # appadmin
+k8s-worker2 : 192.168.219.221 # appadmin
+k8s-volume : 192.168.219.224 # appadmin( NAS Share)
 ```
