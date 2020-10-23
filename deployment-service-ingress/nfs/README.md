@@ -5,6 +5,7 @@
 ### Persitent Volume 생성
 
 ```
+# nfs 
 # pv 생성(persitent volume)
 kind: PersistentVolume
 metadata:
@@ -27,7 +28,7 @@ spec:
 # pvc에서 volumeName으로 pv명(nfs-pv)을 지정해야 함.
 ```
 
-### Persitent Volume 적용
+### Persitent Volume 적용(pod, deployment)
 
 ```
 # volumes에서 PVC의 이름(nfs-pvc:nginx-pv-storage)을 정의
@@ -40,7 +41,7 @@ spec:
       containers:
       - name: my-nginx
         volumeMounts:
-        - mountPath: "/usr/share/nginx/html"
+        - mountPath: "show/usr/share/nginx/html"
           name: nginx-pv-storage
       volumes:
       - name: nginx-pv-storage
